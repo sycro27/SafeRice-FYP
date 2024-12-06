@@ -1,8 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
+import { Ionicons } from 'react-native-vector-icons';  // Import Ionicons for the menu icon
 import styles from './style';
 
 const MainMenu = ({ navigation }) => {
+  useEffect(() => {
+    // Set up the menu icon in the header right when the screen is loaded
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity onPress={() => navigation.openDrawer()}>
+          <Ionicons name="menu" size={100} color="green" style={{ marginBottom: 50 }} />
+        </TouchableOpacity>
+      ),
+      headerStyle: {
+        backgroundColor: '#fff', // Set a background color for the header if needed
+      },
+    });
+  }, [navigation]);
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Main Menu</Text>
