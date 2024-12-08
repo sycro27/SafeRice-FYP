@@ -1,62 +1,80 @@
-import React, { useEffect, useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createDrawerNavigator } from '@react-navigation/drawer'; // Import the Drawer Navigator
 import { createStackNavigator } from '@react-navigation/stack';
-import SplashScreen from 'react-native-splash-screen'; // Import the splash screen library
+import SplashScreen from 'react-native-splash-screen'; // Import splash screen
 
 import Login from './components/Login';
-import SignUp from './components/Signup';
+import SignUp from './components/SignUp';
 import MainMenu from './components/MainMenu';
 import CameraFeature from './components/CameraFeature';
-import SplashScreenComponent from './components/SplashScreenComponent';
+import About from './components/About';
+import Profile from './components/Profile';
+import EditProfile from './components/EditProfile';
+import SplashScreenComponent from './components/SplashScreenComponent'; // Import your splash screen component
 
-// Create the drawer navigator and stack navigator
-const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
-// Stack Navigator for Login & SignUp screens
-function AuthStack() {
-  return (
-    <Stack.Navigator initialRouteName="Login">
-      <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
-      <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }} />
-    </Stack.Navigator>
-  );
-}
+const App = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(true); // Set the login state
+  const [isSplashScreenVisible, setSplashScreenVisible] = useState(true); // State for controlling splash screen visibility
 
-// Drawer Navigator for MainMenu and CameraFeature
-function AppDrawer() {
-  return (
-    <Drawer.Navigator
-      initialRouteName="MainMenu"
-      screenOptions={{
-        headerShown: true, 
-      }}
-    >
-      <Drawer.Screen name="MainMenu" component={MainMenu} />
-      <Drawer.Screen name="CameraFeature" component={CameraFeature} />
-    </Drawer.Navigator>
-  );
-}
-
-export default function App() {
-  const isLoggedIn = true; // Set this to your actual authentication state
-  const [isAppReady, setIsAppReady] = React.useState(false);
-
+  // Handle splash screen visibility
   useEffect(() => {
-    // Simulate loading process
     setTimeout(() => {
-      setIsAppReady(true); // After splash screen is done, update the state
-    }, 3000); // Match this duration to your splash screen duration
+      setSplashScreenVisible(false); // Hide splash screen after 3 seconds
+    }, 3000); // 3 seconds for splash screen
   }, []);
-
-  if (!isAppReady) {
-    return <SplashScreenComponent />; // Show splash screen while the app is loading
-  }
 
   return (
     <NavigationContainer>
-      {isLoggedIn ? <AppDrawer /> : <AuthStack />}
+      {isSplashScreenVisible ? (
+        // Show the splash screen if it's visible
+        <SplashScreenComponent />
+      ) : (
+        // If the splash screen is hidden, show the appropriate navigation stack
+        <Stack.Navigator>
+          {!isLoggedIn ? (
+            <>
+              <Stack.Screen
+                name="Login"
+                component={Login}
+                options={{ headerShown: false }} // No header for Login
+              />
+              <Stack.Screen
+                name="SignUp"
+                component={SignUp}
+                options={{ headerShown: false }} // No header for SignUp
+              />
+            </>
+          ) : (
+            <>
+              <Stack.Screen
+                name="MainMenu"
+                component={MainMenu}
+                options={{ headerShown: false }} // No header for MainMenu
+              />
+              <Stack.Screen
+                name="CameraFeature"
+                component={CameraFeature}
+              />
+              <Stack.Screen
+                name="About"
+                component={About}
+              />
+              <Stack.Screen
+                name="Profile"
+                component={Profile}
+              />
+              <Stack.Screen
+                name="EditProfile"
+                component={EditProfile}
+              />
+            </>
+          )}
+        </Stack.Navigator>
+      )}
     </NavigationContainer>
   );
-}
+};
+
+export default App;

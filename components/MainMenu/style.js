@@ -3,30 +3,41 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white',
-    padding: 20,
+  },
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'cover',  // Ensures the image fills the screen
+    justifyContent: 'center',  // Centers content
+    alignItems: 'center',  // Centers content
+  },
+  absolute: {
+    ...StyleSheet.absoluteFillObject, // Makes the blur cover the entire screen
+  },
+  menuButton: {
+    position: 'absolute',
+    top: 30,
+    left: 20,
+    zIndex: 1,  // Ensure the menu button is above the blurred background
   },
   title: {
-    fontSize: 28,
+    fontSize: 30,
     fontWeight: 'bold',
-    color: 'green',
+    color: '#fff',
     marginBottom: 20,
+    zIndex: 1,  // Ensures text is above the blur
   },
   optionBox: {
-    width: '90%',
+    backgroundColor: 'rgba(255, 255, 255, 0.7)', // Semi-transparent white background
     padding: 15,
-    marginVertical: 10,
-    borderWidth: 1,
+    marginBottom: 10,
+    width: '80%',
     borderRadius: 8,
-    borderColor: 'green',
     alignItems: 'center',
-    backgroundColor: '#e8f5e9',
+    zIndex: 1,  // Ensures text is above the blur
   },
   optionText: {
     fontSize: 18,
-    color: 'green',
+    color: '#333',
   },
 });
 
